@@ -15,4 +15,15 @@ EXPOSE 8888 888 80 443 21
 
 VOLUME /www
 
-CMD sh -c  '/bin/echo -e "$PASSWORD" | /bin/bt 5' && sh -c  '/bin/echo -e "$USERNAME" | /bin/bt 6' && rm /www/server/panel/logs/error.log && /bin/bt 3 && tail -f /www/server/panel/logs/error.log
+COPY start.sh /data/start.sh
+COPY stop.sh /data/stop.sh
+COPY entry.sh /data/entry.sh
+
+WORKDIR /data
+
+RUN chown root:root /data/*.sh && chmod 700 /data/*.sh
+
+ENTRYPOINT ["/data/entry.sh"]
+
+
+
